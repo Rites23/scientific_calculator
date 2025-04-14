@@ -1,0 +1,39 @@
+class CalculatorState {
+  final String output;
+  final String history;
+  final double fontSize;
+  final bool isRadians;
+  final double memoryValue;
+  final double? previousResult;
+  final double? prePreviousResult;
+
+  CalculatorState({
+    required this.output,
+    required this.history,
+    required this.fontSize,
+    this.isRadians = false,
+    this.memoryValue = 0,
+    this.previousResult,
+    this.prePreviousResult,
+  });
+
+  CalculatorState copyWith({
+    String? output,
+    String? history,
+    double? fontSize,
+    bool? isRadians,
+    double? memoryValue,
+    double? previousResult,
+    double? prePreviousResult,
+  }) {
+    return CalculatorState(
+      output: output ?? this.output,
+      history: history ?? this.history,
+      fontSize: fontSize ?? this.fontSize,
+      isRadians: isRadians ?? this.isRadians,
+      memoryValue: memoryValue ?? this.memoryValue,
+      previousResult: previousResult ?? this.previousResult,
+      prePreviousResult: prePreviousResult ?? this.prePreviousResult,
+    );
+  }
+}
