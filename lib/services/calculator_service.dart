@@ -7,12 +7,17 @@ class CalculatorService {
   static double? _previousAnswer;
   static double? _prePreviousAnswer;
 
+  
+
   static double evaluate(String expression) {
     try {
       
       // Handle implied multiplication first (e.g., (2)(2) -> (2)*(2))
       
       String parsedExpr = expression.replaceAll('x', '*').replaceAll('×', '*');
+
+      // First handle trigonometric functions with proper angle conversion
+      parsedExpr = _convertTrigFunctions(parsedExpr);
 
       parsedExpr = _insertImpliedMultiplication(parsedExpr);
 
@@ -30,10 +35,8 @@ class CalculatorService {
       // Handle special functions
       parsedExpr = _handleSpecialFunctions(parsedExpr);
 
-      // Handle trigonometric functions with angle mode conversion
-      parsedExpr = _convertTrigFunctions(parsedExpr);
-
       // Parse and evaluate
+      // ignore: deprecated_member_use
       Parser p = Parser();
       Expression exp = p.parse(parsedExpr);
       ContextModel cm = ContextModel()
@@ -49,14 +52,68 @@ class CalculatorService {
       if (result.isInfinite) throw Exception('Division by zero');
       if (result.isNaN) throw Exception('Undefined result');
 
-      // Update previous answers
+      // Update previous answers - enhanced from Ritesh's code
       _prePreviousAnswer = _previousAnswer;
       _previousAnswer = result;
+// Track current input state
 
       return result;
     } catch (e) {
       throw _simplifyError(e);
     }
+  }
+
+  static String _convertTrigFunctions(String expr) {
+  const trigFunctions = ['sin', 'cos', 'tan', 'asin', 'acos', 'atan'];
+  
+  for (var func in trigFunctions) {
+    final pattern = RegExp('$func\\(([^)]+)\\)');
+    expr = expr.replaceAllMapped(pattern, (match) {
+      final value = match.group(1)!;
+      // For inverse trig functions, we need to convert the result, not the input
+      if (func.startsWith('a')) {
+        return _isRadians 
+            ? '$func($value)' 
+            : '($func($value))*180/pi';
+      } else {
+        return _isRadians 
+            ? '$func($value)' 
+            : '$func(($value)*pi/180)';
+      }
+    });
+  }
+  return expr;
+}
+
+
+  // Added from Ritesh's code - improved trigonometric calculations
+  static double calculateTrigonometric(String function, double value) {
+    double radians = _isRadians ? value : value * math.pi / 180;
+    switch (function) {
+      case 'sin':
+        return math.sin(radians);
+      case 'cos':
+        return math.cos(radians);
+      case 'tan':
+        return math.tan(radians);
+      case 'asin':
+        return math.asin(value);
+      case 'acos':
+        return math.acos(value);
+      case 'atan':
+        return math.atan(value);
+      default:
+        return value;
+    }
+  }
+
+  // Added from Ritesh's code - better inverse trig handling
+  static double calculateInverseTrigonometric(String function, double value) {
+    double result = calculateTrigonometric(function, value);
+    if (!_isRadians && function.startsWith('a')) {
+      result = result * 180 / math.pi;
+    }
+    return result;
   }
 
   static Exception _simplifyError(dynamic e) {
@@ -121,27 +178,7 @@ class CalculatorService {
     return expr;
   }
 
-  static String _convertTrigFunctions(String expr) {
-  const trigFunctions = ['sin', 'cos', 'tan', 'asin', 'acos', 'atan'];
   
-  for (var func in trigFunctions) {
-    final pattern = RegExp('$func\\(([^)]+)\\)');
-    expr = expr.replaceAllMapped(pattern, (match) {
-      final value = match.group(1)!;
-      // For inverse trig functions, we need to convert the result, not the input
-      if (func.startsWith('a')) {
-        return _isRadians 
-            ? '$func($value)' 
-            : '($func($value))*180/pi';
-      } else {
-        return _isRadians 
-            ? '$func($value)' 
-            : '$func(($value)*pi/180)';
-      }
-    });
-  }
-  return expr;
-}
 
   // Memory functions
   static double get memory => _memory;
@@ -151,7 +188,9 @@ class CalculatorService {
   static void memoryClear() => _memory = 0;
 
   // Angle mode
-  static void toggleAngleMode() => _isRadians = !_isRadians;
+  static void toggleAngleMode() {
+  _isRadians = !_isRadians;
+  }
   static bool get isRadians => _isRadians;
 
   // Special calculations
@@ -164,6 +203,10 @@ class CalculatorService {
     }
     return result;
   }
+
+  static memoryRecall() {}
+
+  static evaluateExpression(String output, bool isRadians) {}
 
 
 }
