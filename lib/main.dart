@@ -1,19 +1,25 @@
+import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'ui/calculator_screen.dart'; // Adjust the import path if needed
+import 'package:provider/provider.dart';
+
+import 'package:scientific_calculator/screens/calculator_screen.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Scientific Calculator',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: CalculatorScreen(), // Ensure this import path is correct
+      debugShowCheckedModeBanner: false,
+      home: CalculatorScreen(),
+
     );
   }
 }

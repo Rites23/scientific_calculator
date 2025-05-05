@@ -29,7 +29,7 @@ Widget build(BuildContext context) {
           padding: EdgeInsets.zero,
           children: [
             // Row 1: Memory functions
-            _memoryButton("MC"),
+            _memoryButton("MS"),
             _memoryButton("MR"),
             _memoryButton("M+"),
             _memoryButton("M-"),
@@ -47,15 +47,18 @@ Widget build(BuildContext context) {
             _logButton("log"),
             _logButton("ln"),
             _logButton("e^"),
-            _constantButton("π"),
-            _constantButton("e"),
+            _trigInverseButton("cos⁻¹"),
+            _trigInverseButton("tan⁻¹"),
+            
+
         
             // Row 9: Advanced functions
             _advancedButton("|x|"),
             _advancedButton("1/x"),
             _advancedButton("10^"),
-            _comboButton("nCr"),
-            _comboButton("nPr"),
+            _constantButton("π"),
+            _constantButton("e"),
+
 
             // Row 7: Powers and roots
             _powerButton("x²"),
@@ -202,10 +205,18 @@ Widget _buildShortButton({
 
 
   Widget _trigInverseButton(String text) => _buildShortButton(
-        text: text,
-        onPressed: () => onButtonPressed("a${text.substring(0, 3)}("),
-        
-      );
+  text: text,
+  onPressed: () {
+    final funcName = switch(text) {
+      'sin⁻¹' => 'arcsin(',
+      'cos⁻¹' => 'arccos(',
+      'tan⁻¹' => 'arctan(',
+      _ => 'arsin(' // default case
+    };
+    onButtonPressed(funcName);
+  },
+);
+
 
   Widget _radDegToggle() => _buildShortButton(
         text: isRadians ? "DEG" : "RAD",
@@ -238,10 +249,6 @@ Widget _buildShortButton({
         onPressed: () => onButtonPressed(text == "|x|" ? "abs(" : text == "1/x" ? "1/(" : "10^("),
       );
 
-  Widget _comboButton(String text) => _buildShortButton(
-        text: text,
-        onPressed: () => onButtonPressed("$text("),
-      );
 
   Widget _parenthesisButton(String text) => _buildShortButton(
         text: text,
@@ -258,3 +265,4 @@ Widget _buildShortButton({
         onPressed: () => onButtonPressed(text),
       );
 }
+
