@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../widgets/calc_button.dart';
+// import '../../widgets/calc_button.dart';
 import '../../logic/calculator_engine.dart';
 import 'button_grid.dart';
 
@@ -7,10 +7,10 @@ class CalculatorScreen extends StatefulWidget {
   const CalculatorScreen({super.key});
 
   @override
-  _CalculatorScreenState createState() => _CalculatorScreenState();
+  CalculatorScreenState createState() => CalculatorScreenState();
 }
 
-class _CalculatorScreenState extends State<CalculatorScreen> {
+class CalculatorScreenState extends State<CalculatorScreen> {
   final CalculatorEngine _engine = CalculatorEngine();
   String _display = '0';
 
