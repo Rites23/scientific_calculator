@@ -9,20 +9,7 @@ void main() {
   runApp(const MyApp());
 }
 
-/*void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(
-    DevicePreview(
-      enabled: !kReleaseMode,
-      builder: (context) => ChangeNotifierProvider(
 
-        create: (BuildContext context) {  },
-        child: MyApp(),
-      ),
-    ),
-  );
-}
-*/
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -32,6 +19,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: CalculatorScreen(),
+
     );
   }
 }

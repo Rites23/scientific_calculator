@@ -1,0 +1,59 @@
+class CalculatorState {
+  final String output;
+  final String history;
+  final double fontSize;
+  final bool isRadians;
+  final double memoryValue;
+  final double? previousResult;
+  final double? prePreviousResult;
+  // Added from Ritesh's code
+  final double currentInput;
+  final double previousInput;
+  final String currentOperation;
+  final bool newInputStarted;
+
+  CalculatorState({
+    required this.output,
+    required this.history,
+    required this.fontSize,
+    this.isRadians = false,
+    this.memoryValue = 0,
+    this.previousResult,
+    this.prePreviousResult,
+    // Added from Ritesh's code
+    this.currentInput = 0,
+    this.previousInput = 0,
+    this.currentOperation = '',
+    this.newInputStarted = false,
+  });
+
+  CalculatorState copyWith({
+    String? output,
+    String? history,
+    double? fontSize,
+    bool? isRadians,
+    double? memoryValue,
+    double? previousResult,
+    double? prePreviousResult,
+    // Added from Ritesh's code
+    double? currentInput,
+    double? previousInput,
+    String? currentOperation,
+    bool? newInputStarted,
+  }) {
+    return CalculatorState(
+      output: output ?? this.output,
+      history: history ?? this.history,
+      fontSize: fontSize ?? this.fontSize,
+      isRadians: isRadians ?? this.isRadians,
+      memoryValue: memoryValue ?? this.memoryValue,
+      previousResult: previousResult ?? this.previousResult,
+      prePreviousResult: prePreviousResult ?? this.prePreviousResult,
+      // Added from Ritesh's code
+      currentInput: currentInput ?? this.currentInput,
+      previousInput: previousInput ?? this.previousInput,
+      currentOperation: currentOperation ?? this.currentOperation,
+      newInputStarted: newInputStarted ?? this.newInputStarted,
+    );
+  }
+}

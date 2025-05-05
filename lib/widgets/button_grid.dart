@@ -50,6 +50,7 @@ Widget build(BuildContext context) {
             _trigInverseButton("cos⁻¹"),
             _trigInverseButton("tan⁻¹"),
             
+
         
             // Row 9: Advanced functions
             _advancedButton("|x|"),
@@ -57,6 +58,7 @@ Widget build(BuildContext context) {
             _advancedButton("10^"),
             _constantButton("π"),
             _constantButton("e"),
+
 
             // Row 7: Powers and roots
             _powerButton("x²"),
@@ -215,6 +217,7 @@ Widget _buildShortButton({
   },
 );
 
+
   Widget _radDegToggle() => _buildShortButton(
         text: isRadians ? "DEG" : "RAD",
         onPressed: () => onButtonPressed("Rad"),
@@ -246,6 +249,7 @@ Widget _buildShortButton({
         onPressed: () => onButtonPressed(text == "|x|" ? "abs(" : text == "1/x" ? "1/(" : "10^("),
       );
 
+
   Widget _parenthesisButton(String text) => _buildShortButton(
         text: text,
         onPressed: () => onButtonPressed(text),
@@ -261,3 +265,4 @@ Widget _buildShortButton({
         onPressed: () => onButtonPressed(text),
       );
 }
+
